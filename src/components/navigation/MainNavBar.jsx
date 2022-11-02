@@ -16,18 +16,20 @@ function MainNavBar(props) {
                     <Nav className="me-auto">
                     </Nav>
                     <Nav>
-                        {isAuthenticated && (
-                            <Link to={'/'}>{user.name}</Link>
+                        {isAuthenticated ? (
+                            <>
+                                <Link to={'/'} className={'nav-link disabled m-1'}>{user.name}</Link>
+                                <Link to={'/dashboard'} className={'nav-link btn btn-secondary m-1'}>Dashboard</Link>
+                                <button
+                                    onClick={() => logout({returnTo: window.location.origin})}
+                                    className={'nav-link btn btn-secondary m-1'}>Logout
+                                </button>
+                            </>
+                        ) : (
+                            <button onClick={loginWithRedirect}
+                                    className={'nav-link btn btn-secondary m-1'}>Login
+                            </button>
                         )}
-                        <Link to={'/dashboard'} className={'nav-link'}>Dashboard</Link>
-                        <button onClick={loginWithRedirect}
-                                className={'nav-link btn btn-secondary mx-1'}>LogIn
-                        </button>
-                        <button
-                            onClick={() => logout({returnTo: window.location.origin})}
-                            className={'nav-link btn btn-secondary'}>LogOut
-                        </button>
-
                     </Nav>
                 </Navbar.Collapse>
             </Container>
