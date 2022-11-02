@@ -1,6 +1,5 @@
 import React from "react";
 import {useAuth0} from "@auth0/auth0-react";
-import MainNavBar from "../components/navigation/MainNavBar";
 
 const Home = () => {
     const {loginWithPopup, loginWithRedirect, logout, user, isAuthenticated, isLoading} = useAuth0();
@@ -12,12 +11,6 @@ const Home = () => {
     return (
         <>
             <div>
-                <button onClick={loginWithPopup}>LogIn with PopUp</button>
-                <br/>
-                <button onClick={loginWithRedirect}>LogIn with Redirect</button>
-                <br/>
-                <button onClick={() => logout({returnTo: window.location.origin})}>LogOut</button>
-
                 <h3>User is {isAuthenticated ? 'authenticated' : 'not authenticated'}</h3>
 
                 {isAuthenticated && (
