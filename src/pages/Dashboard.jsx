@@ -1,9 +1,14 @@
 import React from 'react';
+import {Container} from "react-bootstrap";
+import DashNavBar from "../components/navigation/DashNavBar";
 
 function Dashboard(props) {
     return (
         <div>
-            <h1>Dashboard</h1>
+            <Container>
+                <h1 className='text-uppercase'>Dashboard</h1>
+                <DashNavBar/>
+            </Container>
         </div>
     );
 }
