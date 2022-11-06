@@ -1,18 +1,18 @@
 import React from 'react';
 import DashNavBar from "../navigation/DashNavBar";
 import {Container} from "react-bootstrap";
-import UploadFile from "../files/UploadFile";
+import ViewFileList from "../files/ViewFileList";
 
-function File(props) {
+function FileList(props) {
     return (
         <div>
             <Container>
                 <h1 className='text-uppercase'>Dashboard</h1>
                 <DashNavBar/>
-                <UploadFile/>
+                <ViewFileList/>
             </Container>
         </div>
     );
 }
 
-export default File;
+export default FileList;
