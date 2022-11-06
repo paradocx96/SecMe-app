@@ -2,6 +2,7 @@ import React from "react";
 import {useAuth0} from "@auth0/auth0-react";
 import {Button, Container} from "react-bootstrap";
 import axios from "axios";
+import {Link} from "react-router-dom";
 
 const Home = () => {
     const {user, isAuthenticated, isLoading, getAccessTokenSilently} = useAuth0();
@@ -93,6 +94,8 @@ const Home = () => {
                 <Button onClick={privateCallScopeAdmin}>Scope Admin</Button>
                 <Button onClick={privateCallScopeManager}>Scope Manager</Button>
                 <Button onClick={privateCallScopeWorker}>Scope Worker</Button>
+
+                <Link to={"/messages"}>Messages RLW</Link>
             </div>
         </Container>
     );
