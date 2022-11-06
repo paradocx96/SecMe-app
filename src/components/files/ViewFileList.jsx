@@ -6,23 +6,30 @@ import 'react-toastify/dist/ReactToastify.css';
 import {Button, Table} from "react-bootstrap";
 import ToastMessages from "../common/ToastMessages";
 import Modal from "react-bootstrap/Modal";
+import {useAuth0} from "@auth0/auth0-react";
 
 const ViewFileList = () => {
 
+    const {user, isLoading} = useAuth0();
     const [files, setFiles] = useState([]);
     const [show, setShow] = useState(false);
     const [fileId, setFileId] = useState("");
 
     useEffect(() => {
+
+        //Get current user email
+        const userEmail = sessionStorage.getItem("user-email");
+
         //Get all files by username
-        async function getFileByUsername(username) {
-            await FileService.getFilesByUsername(username).then((res) => {
+        async function getFileByUsername() {
+            await FileService.getFilesByUsername(userEmail).then((res) => {
                 console.log("res.data: ", res.data);
                 setFiles(res.data);
             });
         }
         //Get current username
-        getFileByUsername("admin");
+        getFileByUsername();
+
     }, []);
 
     const handleClose = () => {
@@ -124,7 +131,7 @@ const ViewFileList = () => {
                             <tr key={file.id}>
                                 <td>{file.name}</td>
                                 <td>{file.type}</td>
-                                <td>{file.fileSize}</td>
+                                <td>{ parseInt(parseInt(file.fileSize) / 1024)}</td>
                                 <td>{file.dateTime}</td>
                                 <td className={"text-center"}><Button onClick={() => onDownload(file.content, file.name)} className="btn btn-primary"
                                             id={"download-file"}>Download</Button></td>
