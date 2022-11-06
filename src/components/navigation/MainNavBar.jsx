@@ -6,6 +6,15 @@ import {useAuth0} from "@auth0/auth0-react";
 function MainNavBar(props) {
     const {loginWithPopup, loginWithRedirect, logout, user, isAuthenticated, isLoading} = useAuth0();
 
+    const setSessionStorage = (email) =>{
+        sessionStorage.setItem('user-email', email);
+    }
+
+    const removeSessionStorage = () =>{
+        sessionStorage.removeItem('user-email');
+        logout({returnTo: window.location.origin})
+    }
+
     return (
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
             <Container>
@@ -19,9 +28,9 @@ function MainNavBar(props) {
                         {isAuthenticated ? (
                             <>
                                 <Link to={'/'} className={'nav-link disabled m-1'}>{user.name}</Link>
-                                <Link to={'/dashboard'} className={'nav-link btn btn-secondary m-1'}>Dashboard</Link>
+                                <Link to={'/dashboard'} className={'nav-link btn btn-secondary m-1'} onClick={() => setSessionStorage(user.email)}>Dashboard</Link>
                                 <button
-                                    onClick={() => logout({returnTo: window.location.origin})}
+                                    onClick={() => removeSessionStorage()}
                                     className={'nav-link btn btn-secondary m-1'}>Logout
                                 </button>
                             </>
