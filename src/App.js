@@ -8,6 +8,9 @@ import Dashboard from "./pages/Dashboard";
 import Message from "./components/dashboard/Message";
 import File from "./components/dashboard/File";
 import FileList from "./components/dashboard/FileList";
+import Messages from "./pages/Messages";
+import AddMessage from "./components/messages/AddMessage";
+
 
 function App() {
     return (
@@ -18,6 +21,8 @@ function App() {
                 <Route path="/error" element={<Error/>}/>
                 <Route path="/dashboard" element={<Dashboard/>}/>
                 <Route path="/message" element={<Message/>}/>
+                <Route path="/messages" element={<Messages/>}/>
+                <Route path="/messages/add" element={<AddMessage/>}/>
                 <Route path="/file" element={<File/>}/>
                 <Route path="/file-list" element={<FileList/>}/>
             </Routes>
