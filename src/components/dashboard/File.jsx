@@ -1,6 +1,7 @@
 import React from 'react';
 import DashNavBar from "../navigation/DashNavBar";
 import {Container} from "react-bootstrap";
+import UploadFile from "../files/UploadFile";
 
 function File(props) {
     return (
@@ -8,7 +9,7 @@ function File(props) {
             <Container>
                 <h1 className='text-uppercase'>Dashboard</h1>
                 <DashNavBar/>
-                <h2>File</h2>
+                <UploadFile/>
             </Container>
         </div>
     );
