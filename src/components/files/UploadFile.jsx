@@ -1,17 +1,21 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import ToastMessages from "../common/ToastMessages";
 import FileService from "../../services/FileService";
 import {ToastContainer} from "react-toastify";
 import {Button} from "react-bootstrap";
 import "../../assets/file.css";
+import {useAuth0} from "@auth0/auth0-react";
 
 const UploadFile = () => {
+    const {user} = useAuth0();
     const [selectedFile, setSelectedFile] = useState([]);
     const [fileBase64String, setFileBase64String] = useState("");
     const [fileName, setFileName] = useState("");
+    const [isLoaded, setIsLoaded] = useState();
 
     //Handle file upload
     const onFileChange = (e) => {
+        //setIsLoaded(true);
         encodeFileBase64(e.target.files[0]);
         setSelectedFile(e.target.files);
         console.log("Files" + e.target.files[0]);
@@ -48,23 +52,22 @@ const UploadFile = () => {
         if (selectedFile === null || selectedFile === undefined || selectedFile.length === 0) {
             ToastMessages("warning", "Please select a file to upload!");
         } else {
-            const username = "admin";
+            setIsLoaded(true);
             const dateTime = new Date().toISOString();
-
             const data = {
-                "username": username,
+                "username": user.email,
                 "dateTime": dateTime,
                 "content": fileBase64String,
                 "name": selectedFile[0].name,
                 "type": selectedFile[0].type,
                 "fileSize": selectedFile[0].size,
             }
-
             await FileService.uploadFile(data).then((res) => {
                 console.log("res: ", res);
                 setSelectedFile(null);
                 setFileBase64String("");
                 setFileName("");
+                setIsLoaded(false);
                 if (res.status === 200) {
                     ToastMessages("success", "File Uploaded Successfully");
                 } else {
@@ -98,7 +101,10 @@ const UploadFile = () => {
                         <br/>
                         <div className="d-flex justify-content-center">
                             <Button className={"btn btn-success text-center"} style={{padding: "8px 50px"}}
-                                    onClick={() => onFileUpload()}>
+                                    onClick={() => onFileUpload()} disabled={isLoaded}>
+                                {isLoaded && (
+                                    <span className="spinner-border spinner-border-sm"> </span>
+                                )}
                                 Upload
                             </Button>
                         </div>
