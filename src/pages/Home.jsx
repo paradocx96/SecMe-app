@@ -1,8 +1,8 @@
 import React from "react";
 import {useAuth0} from "@auth0/auth0-react";
 import {Button, Container} from "react-bootstrap";
-import axios from "axios";
 import {Link} from "react-router-dom";
+import PostService from "../services/PostService";
 
 const Home = () => {
     const {user, isAuthenticated, isLoading, getAccessTokenSilently} = useAuth0();
@@ -11,67 +11,24 @@ const Home = () => {
         return <div>Loading ...</div>;
     }
 
-    const publicCall = () => {
-        axios
-            .get('https://sec-me-api.herokuapp.com/api/post/public')
-            .then(res => console.log(res))
-            .catch(error => console.log(error.message))
+    const publicCall = async () => {
+        await PostService.publicCall(getAccessTokenSilently);
     }
 
     const privateCall = async () => {
-        try {
-            const token = await getAccessTokenSilently();
-            const response = await axios.get('https://sec-me-api.herokuapp.com/api/post/private', {
-                headers: {
-                    authorization: `Bearer ${token}`,
-                },
-            });
-            console.log(response.data);
-        } catch (error) {
-            console.log(error.message)
-        }
+        await PostService.privateCall(getAccessTokenSilently);
     }
 
     const privateCallScopeAdmin = async () => {
-        try {
-            const token = await getAccessTokenSilently();
-            const response = await axios.get('https://sec-me-api.herokuapp.com/api/post/scopeadmin', {
-                headers: {
-                    authorization: `Bearer ${token}`,
-                },
-            });
-            console.log(response.data);
-        } catch (error) {
-            console.log(error.message)
-        }
+        await PostService.privateCallScopeAdmin(getAccessTokenSilently);
     }
 
     const privateCallScopeManager = async () => {
-        try {
-            const token = await getAccessTokenSilently();
-            const response = await axios.get('https://sec-me-api.herokuapp.com/api/post/scopemanager', {
-                headers: {
-                    authorization: `Bearer ${token}`,
-                },
-            });
-            console.log(response.data);
-        } catch (error) {
-            console.log(error.message)
-        }
+        await PostService.privateCallScopeManager(getAccessTokenSilently);
     }
 
     const privateCallScopeWorker = async () => {
-        try {
-            const token = await getAccessTokenSilently();
-            const response = await axios.get('https://sec-me-api.herokuapp.com/api/post/scopeadmin', {
-                headers: {
-                    authorization: `Bearer ${token}`,
-                },
-            });
-            console.log(response.data);
-        } catch (error) {
-            console.log(error.message)
-        }
+        await PostService.privateCallScopeWorker(getAccessTokenSilently);
     }
 
     return (
