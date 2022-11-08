@@ -6,7 +6,7 @@ import axios from "axios";
 const BASE_URL_LOCALHOST = "http://localhost:443/api/messages/";
 
 const AddMessage = () => {
-
+    const {user, isAuthenticated, isLoading, getAccessTokenSilently} = useAuth0();
     const [content, setContent] = useState("");
 
     const privateCreateMessage = async (event) => {
@@ -17,6 +17,37 @@ const AddMessage = () => {
                 content : content
             }
             const response = await axios.post(BASE_URL_LOCALHOST, message);
+
+            if (response.data != null && response.data.id != null){
+                showAlert("Message Posted");
+            }
+            else {
+                showAlert("Error in adding message")
+            }
+
+
+            console.log(response);
+            console.log(response.data);
+        }
+        catch (exception){
+            console.log("Exception in creating message entry : " + exception);
+        }
+
+    }
+
+    const createMessageWithToken = async (event) => {
+        event.preventDefault();
+        try {
+            const token = await getAccessTokenSilently();
+            let message = {
+                username : "user4",
+                content : content
+            }
+            const response = await axios.post(BASE_URL_LOCALHOST, message, {
+                headers: {
+                    authorization: `Bearer ${token}`,
+                },
+            });
 
             if (response.data != null && response.data.id != null){
                 showAlert("Message Posted");
@@ -48,7 +79,7 @@ const AddMessage = () => {
             <div>
                 <h2>New Message</h2>
                 <Form
-                    onSubmit={privateCreateMessage}
+                    onSubmit={createMessageWithToken}
                 >
                     <Form.Label>Message</Form.Label>
                     <Form.Control
