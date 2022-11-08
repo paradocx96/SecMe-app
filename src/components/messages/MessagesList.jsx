@@ -2,21 +2,40 @@ import React, {useEffect, useState} from "react";
 import {useAuth0} from "@auth0/auth0-react";
 import {Button, Container, Table} from "react-bootstrap";
 import axios from "axios";
+import MessagesService from "../../services/MessagesService";
 
 
 const BASE_URL_LOCALHOST = "http://localhost:443/api/messages/";
 
 const MessagesList = () => {
-
+    const {user, isAuthenticated, isLoading, getAccessTokenSilently} = useAuth0();
     const [messagesList, setMessagesList] = useState([]);
 
     useEffect( () => {
-        privateCallGetAllMessages();
+        privateCallGetAllMessagesWithToken();
     })
 
     const privateCallGetAllMessages = async () => {
         try {
             const response = await axios.get(BASE_URL_LOCALHOST);
+            setMessagesList(response.data)
+            console.log(response.data);
+        }
+        catch (exception){
+            console.log("Exception in getting all messages :  " + exception);
+        }
+    }
+
+    const privateCallGetAllMessagesWithToken = async () => {
+        try {
+            const token = await getAccessTokenSilently();
+            /*const response = await axios.get(BASE_URL_LOCALHOST, {
+                headers: {
+                    authorization: `Bearer ${token}`,
+                },
+            });*/
+
+            const response = await MessagesService.getAllMessagesWithToken(token);
             setMessagesList(response.data)
             console.log(response.data);
         }

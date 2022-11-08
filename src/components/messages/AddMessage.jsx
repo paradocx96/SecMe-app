@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {useAuth0} from "@auth0/auth0-react";
 import {Button, Container, Form, Table} from "react-bootstrap";
 import axios from "axios";
+import MessagesService from "../../services/MessagesService";
 
 const BASE_URL_LOCALHOST = "http://localhost:443/api/messages/";
 
@@ -37,37 +38,50 @@ const AddMessage = () => {
 
     const createMessageWithToken = async (event) => {
         event.preventDefault();
-        try {
-            const token = await getAccessTokenSilently();
-            let message = {
-                username : "user4",
-                content : content
-            }
-            const response = await axios.post(BASE_URL_LOCALHOST, message, {
-                headers: {
-                    authorization: `Bearer ${token}`,
-                },
-            });
 
-            if (response.data != null && response.data.id != null){
-                showAlert("Message Posted");
-            }
-            else {
-                showAlert("Error in adding message")
-            }
+        if (content){
+            try {
+                const token = await getAccessTokenSilently();
+                let message = {
+                    username : user.email,
+                    content : content
+                }
+                /*const response = await axios.post(BASE_URL_LOCALHOST, message, {
+                    headers: {
+                        authorization: `Bearer ${token}`,
+                    },
+                });*/
+
+                const response = await MessagesService.createMessageWithToken(message, token);
+
+                if (response.data != null && response.data.id != null){
+                    showAlert("Message Posted");
+                }
+                else {
+                    showAlert("Error in adding message")
+                }
 
 
-            console.log(response);
-            console.log(response.data);
+                console.log(response);
+                console.log(response.data);
+            }
+            catch (exception){
+                console.log("Exception in creating message entry : " + exception);
+            }
         }
-        catch (exception){
-            console.log("Exception in creating message entry : " + exception);
+        else {
+            showAlert("Message field cannot be empty")
         }
+
 
     }
 
     const onContentChange = (event) => {
       setContent(event.target.value);
+    }
+
+    const resetForm = (event) => {
+        setContent("");
     }
 
     const showAlert = (message) => {
@@ -80,6 +94,7 @@ const AddMessage = () => {
                 <h2>New Message</h2>
                 <Form
                     onSubmit={createMessageWithToken}
+                    onReset={resetForm}
                 >
                     <Form.Label>Message</Form.Label>
                     <Form.Control
