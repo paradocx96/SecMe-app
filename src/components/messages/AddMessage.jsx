@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {useAuth0} from "@auth0/auth0-react";
 import {Button, Container, Form, Table} from "react-bootstrap";
 import axios from "axios";
+import MessagesService from "../../services/MessagesService";
 
 const BASE_URL_LOCALHOST = "http://localhost:443/api/messages/";
 
@@ -45,11 +46,13 @@ const AddMessage = () => {
                     username : user.email,
                     content : content
                 }
-                const response = await axios.post(BASE_URL_LOCALHOST, message, {
+                /*const response = await axios.post(BASE_URL_LOCALHOST, message, {
                     headers: {
                         authorization: `Bearer ${token}`,
                     },
-                });
+                });*/
+
+                const response = await MessagesService.createMessageWithToken(message, token);
 
                 if (response.data != null && response.data.id != null){
                     showAlert("Message Posted");

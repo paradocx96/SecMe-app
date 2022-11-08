@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {useAuth0} from "@auth0/auth0-react";
 import {Button, Container, Table} from "react-bootstrap";
 import axios from "axios";
+import MessagesService from "../../services/MessagesService";
 
 
 const BASE_URL_LOCALHOST = "http://localhost:443/api/messages/";
@@ -28,11 +29,13 @@ const MessagesList = () => {
     const privateCallGetAllMessagesWithToken = async () => {
         try {
             const token = await getAccessTokenSilently();
-            const response = await axios.get(BASE_URL_LOCALHOST, {
+            /*const response = await axios.get(BASE_URL_LOCALHOST, {
                 headers: {
                     authorization: `Bearer ${token}`,
                 },
-            });
+            });*/
+
+            const response = await MessagesService.getAllMessagesWithToken(token);
             setMessagesList(response.data)
             console.log(response.data);
         }
