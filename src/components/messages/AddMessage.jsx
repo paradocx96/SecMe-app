@@ -80,6 +80,10 @@ const AddMessage = () => {
       setContent(event.target.value);
     }
 
+    const resetForm = (event) => {
+        setContent("");
+    }
+
     const showAlert = (message) => {
       alert(message);
     }
@@ -90,6 +94,7 @@ const AddMessage = () => {
                 <h2>New Message</h2>
                 <Form
                     onSubmit={createMessageWithToken}
+                    onReset={resetForm}
                 >
                     <Form.Label>Message</Form.Label>
                     <Form.Control
