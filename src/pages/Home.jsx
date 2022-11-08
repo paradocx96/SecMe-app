@@ -1,7 +1,6 @@
 import React from "react";
 import {useAuth0} from "@auth0/auth0-react";
-import {Button, Container} from "react-bootstrap";
-import {Link} from "react-router-dom";
+import {Button, Col, Container, Row, Table} from "react-bootstrap";
 import PostService from "../services/PostService";
 
 const Home = () => {
@@ -9,6 +8,11 @@ const Home = () => {
 
     if (isLoading) {
         return <div>Loading ...</div>;
+    }
+
+    if (isAuthenticated) {
+        // console.log(JSON.stringify(user, null, 2));
+        console.log(user);
     }
 
     const publicCall = async () => {
@@ -33,26 +37,59 @@ const Home = () => {
 
     return (
         <Container>
-            <div className='justify-content-center align-content-center align-items-center text-center'>
+            <div className='justify-content-center align-content-center align-items-center text-center pt-5 pb-5'>
                 {isAuthenticated && (
-                    <div>
-                        <img src={user.picture} alt={user.name}/>
-                        <h2>{user.name}</h2>
-                        <p>{user.email}</p>
-                        <br/>
-                        <br/>
-                        <pre style={{textAlign: "start"}}>{JSON.stringify(user, null, 2)}</pre>
-                    </div>
+                    <Container>
+                        <Row>
+                            <Col>
+                                <img src={user.picture} alt={user.name}/>
+                            </Col>
+                            <Col>
+                                <Table>
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <h2>Name: </h2>
+                                        </td>
+                                        <td>
+                                            <h2>{user.name}</h2>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h2>Email: </h2>
+                                        </td>
+                                        <td>
+                                            <h2>{user.email}</h2>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h2>Role: </h2>
+                                        </td>
+                                        <td>
+                                            <h2>{user['https://sec-me-api.herokuapp.com/roles']}</h2>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </Table>
+                            </Col>
+                        </Row>
+                    </Container>
                 )}
-                <h3>User is {isAuthenticated ? 'authenticated' : 'not authenticated'}</h3>
 
-                <Button onClick={publicCall}>Message Public</Button>
-                <Button onClick={privateCall}>Message Private</Button>
-                <Button onClick={privateCallScopeAdmin}>Scope Admin</Button>
-                <Button onClick={privateCallScopeManager}>Scope Manager</Button>
-                <Button onClick={privateCallScopeWorker}>Scope Worker</Button>
+                <div className={'pt-5'}>
+                    <h3>User is {isAuthenticated ? 'authenticated!' : 'not authenticated!'}</h3>
+                </div>
 
-                <Link to={"/messages"}>Messages RLW</Link>
+                <div className={'pt-5'}>
+                    <Button onClick={publicCall}>Message Public</Button>
+                    <Button onClick={privateCall}>Message Private</Button>
+                    <Button onClick={privateCallScopeAdmin}>Scope Admin</Button>
+                    <Button onClick={privateCallScopeManager}>Scope Manager</Button>
+                    <Button onClick={privateCallScopeWorker}>Scope Worker</Button>
+                </div>
+
             </div>
         </Container>
     );
