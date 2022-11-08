@@ -40,7 +40,7 @@ const AddMessage = () => {
         try {
             const token = await getAccessTokenSilently();
             let message = {
-                username : "user4",
+                username : user.email,
                 content : content
             }
             const response = await axios.post(BASE_URL_LOCALHOST, message, {

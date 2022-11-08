@@ -2,6 +2,8 @@ import React from "react";
 import {useAuth0} from "@auth0/auth0-react";
 import {Button, Col, Container, Row, Table} from "react-bootstrap";
 import PostService from "../services/PostService";
+import AddMessage from "../components/messages/AddMessage";
+import MessagesList from "../components/messages/MessagesList";
 
 const Home = () => {
     const {user, isAuthenticated, isLoading, getAccessTokenSilently} = useAuth0();
@@ -88,6 +90,20 @@ const Home = () => {
                     <Button onClick={privateCallScopeAdmin}>Scope Admin</Button>
                     <Button onClick={privateCallScopeManager}>Scope Manager</Button>
                     <Button onClick={privateCallScopeWorker}>Scope Worker</Button>
+                </div>
+
+                <div>
+                    {
+                        isAuthenticated ?
+                            <div>
+                                <AddMessage />
+                                <MessagesList/>
+                            </div> :
+                            <div>
+
+                            </div>
+
+                    }
                 </div>
 
             </div>
