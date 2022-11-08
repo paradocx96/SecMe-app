@@ -37,32 +37,39 @@ const AddMessage = () => {
 
     const createMessageWithToken = async (event) => {
         event.preventDefault();
-        try {
-            const token = await getAccessTokenSilently();
-            let message = {
-                username : user.email,
-                content : content
-            }
-            const response = await axios.post(BASE_URL_LOCALHOST, message, {
-                headers: {
-                    authorization: `Bearer ${token}`,
-                },
-            });
 
-            if (response.data != null && response.data.id != null){
-                showAlert("Message Posted");
-            }
-            else {
-                showAlert("Error in adding message")
-            }
+        if (content){
+            try {
+                const token = await getAccessTokenSilently();
+                let message = {
+                    username : user.email,
+                    content : content
+                }
+                const response = await axios.post(BASE_URL_LOCALHOST, message, {
+                    headers: {
+                        authorization: `Bearer ${token}`,
+                    },
+                });
+
+                if (response.data != null && response.data.id != null){
+                    showAlert("Message Posted");
+                }
+                else {
+                    showAlert("Error in adding message")
+                }
 
 
-            console.log(response);
-            console.log(response.data);
+                console.log(response);
+                console.log(response.data);
+            }
+            catch (exception){
+                console.log("Exception in creating message entry : " + exception);
+            }
         }
-        catch (exception){
-            console.log("Exception in creating message entry : " + exception);
+        else {
+            showAlert("Message field cannot be empty")
         }
+
 
     }
 
