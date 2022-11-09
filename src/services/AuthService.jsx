@@ -2,7 +2,7 @@ import remote_url from './deployment.json'
 import axios from "axios";
 
 class AuthService {
-    BASE_URL = remote_url.localAddress + "/api/auth/";
+    BASE_URL = remote_url.remoteAddress + "/api/auth/";
 
 
     publicCall() {

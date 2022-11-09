@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const REMOTE_API_URL = "https://sec-me-api.herokuapp.com/";
+const REMOTE_API_URL = "https://secme-api.azurewebsites.net/";
 const URI_PART_FOR_MESSAGES = "api/messages/";
 const LOCAL_API_URL = "http://localhost:443/";
 

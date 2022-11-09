@@ -15,22 +15,22 @@ class FileService {
 
     //axios upload file call
     uploadFile(file) {
-        return axios.post(API_URL_LOCAL + "add", file);
+        return axios.post(API_URL_REMOTE + "add", file);
     }
 
     //axios get files by username call
     getFilesByUsername(username) {
-        return axios.get(API_URL_LOCAL + "getByUsername/" + username);
+        return axios.get(API_URL_REMOTE + "getByUsername/" + username);
     }
 
     //axios get file by id call
     getFileById(id) {
-        return axios.get(API_URL_LOCAL + "getById/" + id);
+        return axios.get(API_URL_REMOTE + "getById/" + id);
     }
 
     //axios delete file by id call
     deleteFileById(id) {
-        return axios.delete(API_URL_LOCAL + id);
+        return axios.delete(API_URL_REMOTE + id);
     }
 }
 
