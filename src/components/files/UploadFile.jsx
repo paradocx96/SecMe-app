@@ -1,4 +1,10 @@
-import React, {useEffect, useState} from "react";
+/**
+ * @Author: H.G. Malwatta - IT19240848
+ * @Description: This component is used to upload files to the server and store them in the database
+ * @Version: 1.0.0
+ */
+
+import React, {useState} from "react";
 import ToastMessages from "../common/ToastMessages";
 import FileService from "../../services/FileService";
 import {ToastContainer} from "react-toastify";
@@ -15,7 +21,6 @@ const UploadFile = () => {
 
     //Handle file upload
     const onFileChange = (e) => {
-        //setIsLoaded(true);
         encodeFileBase64(e.target.files[0]);
         setSelectedFile(e.target.files);
         console.log("Files" + e.target.files[0]);
@@ -24,7 +29,10 @@ const UploadFile = () => {
         console.log("type " + e.target.files[0].type);
         setFileName(e.target.files[0].name);
 
-        ToastMessages("info", "File Loaded Successfully!");
+        //Check file is loaded
+        if (e.target.files[0]) {
+            ToastMessages("info", "File Loaded Successfully!");
+        }
     };
 
     //Encode file to base64
@@ -37,10 +45,10 @@ const UploadFile = () => {
             reader.onload = () => {
                 const Base64 = reader.result;
                 setFileBase64String(Base64);
-                console.log("DATA : ", Base64);
             };
             reader.onerror = (error) => {
                 console.log("error: ", error);
+                ToastMessages("error", "Something went wrong!");
             };
 
         }
@@ -63,7 +71,6 @@ const UploadFile = () => {
                 "fileSize": selectedFile[0].size,
             }
             await FileService.uploadFile(data).then((res) => {
-                console.log("res: ", res);
                 setSelectedFile(null);
                 setFileBase64String("");
                 setFileName("");
@@ -73,6 +80,16 @@ const UploadFile = () => {
                 } else {
                     ToastMessages("error", "File Upload Failed");
                 }
+            }).catch((err) => {
+                if (err.response.status === 403 || err.response.status === 401) {
+                    ToastMessages("error", "You can't upload any file!");
+                } else {
+                    ToastMessages("error", "Something went wrong!");
+                }
+                setSelectedFile(null);
+                setFileBase64String("");
+                setFileName("");
+                setIsLoaded(false);
             });
         }
     }

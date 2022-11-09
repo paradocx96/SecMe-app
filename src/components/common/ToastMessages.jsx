@@ -1,3 +1,9 @@
+/**
+ * @Author: H.G. Malwatta - IT19240848
+ * @Description: This component is used to show the different types of toast messages
+ * @Version: 1.0.0
+ */
+
 import {toast} from "react-toastify";
 
 const ToastMessages = (response,messages) => {
@@ -7,7 +13,7 @@ const ToastMessages = (response,messages) => {
         });
     } else if(response === "error") {
         toast.error(messages, {
-            position: toast.POSITION.TOP_RIGHT
+            position: toast.POSITION.TOP_CENTER,
         });
     }else if(response === "warning") {
         toast.warn(messages, {

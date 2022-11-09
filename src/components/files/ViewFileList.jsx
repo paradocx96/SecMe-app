@@ -1,3 +1,9 @@
+/**
+ * @Author: H.G. Malwatta - IT19240848
+ * @Description: This is used to display all files in a table format and also used to download and delete files
+ * @Version: 1.0.0
+ */
+
 import React, {useEffect, useState} from "react";
 import FileService from "../../services/FileService";
 import FileDownload from "js-file-download";
@@ -6,11 +12,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import {Button, Table} from "react-bootstrap";
 import ToastMessages from "../common/ToastMessages";
 import Modal from "react-bootstrap/Modal";
-import {useAuth0} from "@auth0/auth0-react";
 
 const ViewFileList = () => {
 
-    const {user, isLoading} = useAuth0();
     const [files, setFiles] = useState([]);
     const [show, setShow] = useState(false);
     const [fileId, setFileId] = useState("");
@@ -25,6 +29,12 @@ const ViewFileList = () => {
             await FileService.getFilesByUsername(userEmail).then((res) => {
                 console.log("res.data: ", res.data);
                 setFiles(res.data);
+            }).catch((err) => {
+                if(err.response.status === 403 || err.response.status === 401){
+                ToastMessages("error", "You can't view any files!");
+                }else{
+                    ToastMessages("error", "Something went wrong!");
+                }
             });
         }
         //Get current username
@@ -74,12 +84,17 @@ const ViewFileList = () => {
     const onDelete = async (id) => {
         console.log("id: ", id);
         await FileService.deleteFileById(id).then((res) => {
-            console.log("res.data: ", res.data);
             if (res.data.status === "success") {
                 window.location.reload();
                 ToastMessages("success", res.data.message);
             } else {
                 ToastMessages("error", res.data.message);
+            }
+        }).catch((err) => {
+            if(err.response.status === 403 || err.response.status === 401){
+                ToastMessages("error", "You can't delete any files!");
+            }else{
+                ToastMessages("error", "Something went wrong!");
             }
         });
     }
