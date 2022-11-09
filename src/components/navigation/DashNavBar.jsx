@@ -12,6 +12,7 @@ function DashNavBar(props) {
                         <Link to={'/message'} className={'nav-link'}>Message</Link>
                         <Link to={'/file'} className={'nav-link'}>File</Link>
                         <Link to={'/file-list'} className={'nav-link'}>File List</Link>
+                        <Link to={'/auth'} className={'nav-link'}>Auth</Link>
                     </Nav>
                 </Navbar.Collapse>
             </Container>
