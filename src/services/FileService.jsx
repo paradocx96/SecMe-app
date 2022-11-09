@@ -1,11 +1,15 @@
+/**
+ * @Author: H.G. Malwatta - IT19240848
+ * @Description: This is the file service class which is used to handle all the file related operations
+ * @Version: 1.0
+ */
+
 import axios from "axios";
+import Connection from "./deployment.json";
+const URI_FOR_FILE = "/api/files/";
 
-const REMOTE_API_URL = "https://sec-me-api.herokuapp.com/";
-const URI_FOR_FILE = "api/files/";
-const LOCAL_API_URL = "http://localhost:443/";
-
-const API_URL_REMOTE = REMOTE_API_URL + URI_FOR_FILE;
-const API_URL_LOCAL = LOCAL_API_URL + URI_FOR_FILE;
+const API_URL_REMOTE = Connection.remoteAddress + URI_FOR_FILE;
+const API_URL_LOCAL = Connection.localAddress + URI_FOR_FILE;
 
 class FileService {
 
@@ -24,6 +28,7 @@ class FileService {
         return axios.get(API_URL_LOCAL + "getById/" + id);
     }
 
+    //axios delete file by id call
     deleteFileById(id) {
         return axios.delete(API_URL_LOCAL + id);
     }
