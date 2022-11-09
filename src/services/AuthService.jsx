@@ -1,8 +1,8 @@
 import remote_url from './deployment.json'
 import axios from "axios";
 
-class PostService {
-    BASE_URL = remote_url.remoteAddress + "/api/post/";
+class AuthService {
+    BASE_URL = remote_url.remoteAddress + "/api/auth/";
 
 
     publicCall(getAccessTokenSilently) {
@@ -30,7 +30,7 @@ class PostService {
     privateCallScopeAdmin = async (getAccessTokenSilently) => {
         try {
             const token = await getAccessTokenSilently();
-            const response = await axios.get(this.BASE_URL + 'scopeadmin', {
+            const response = await axios.get(this.BASE_URL + 'admin', {
                 headers: {
                     authorization: `Bearer ${token}`,
                 },
@@ -45,7 +45,7 @@ class PostService {
     privateCallScopeManager = async (getAccessTokenSilently) => {
         try {
             const token = await getAccessTokenSilently();
-            const response = await axios.get(this.BASE_URL + 'scopemanager', {
+            const response = await axios.get(this.BASE_URL + 'manager', {
                 headers: {
                     authorization: `Bearer ${token}`,
                 },
@@ -60,7 +60,7 @@ class PostService {
     privateCallScopeWorker = async (getAccessTokenSilently) => {
         try {
             const token = await getAccessTokenSilently();
-            const response = await axios.get(this.BASE_URL + 'scopeworker', {
+            const response = await axios.get(this.BASE_URL + 'worker', {
                 headers: {
                     authorization: `Bearer ${token}`,
                 },
@@ -73,4 +73,4 @@ class PostService {
     }
 }
 
-export default new PostService();
+export default new AuthService();

@@ -1,7 +1,7 @@
 import React from "react";
 import {useAuth0} from "@auth0/auth0-react";
 import {Button, Col, Container, Row, Table} from "react-bootstrap";
-import PostService from "../services/PostService";
+import AuthService from "../services/AuthService";
 import AddMessage from "../components/messages/AddMessage";
 import MessagesList from "../components/messages/MessagesList";
 
@@ -18,23 +18,23 @@ const Home = () => {
     }
 
     const publicCall = async () => {
-        await PostService.publicCall(getAccessTokenSilently);
+        await AuthService.publicCall(getAccessTokenSilently);
     }
 
     const privateCall = async () => {
-        await PostService.privateCall(getAccessTokenSilently);
+        await AuthService.privateCall(getAccessTokenSilently);
     }
 
     const privateCallScopeAdmin = async () => {
-        await PostService.privateCallScopeAdmin(getAccessTokenSilently);
+        await AuthService.privateCallScopeAdmin(getAccessTokenSilently);
     }
 
     const privateCallScopeManager = async () => {
-        await PostService.privateCallScopeManager(getAccessTokenSilently);
+        await AuthService.privateCallScopeManager(getAccessTokenSilently);
     }
 
     const privateCallScopeWorker = async () => {
-        await PostService.privateCallScopeWorker(getAccessTokenSilently);
+        await AuthService.privateCallScopeWorker(getAccessTokenSilently);
     }
 
     return (
