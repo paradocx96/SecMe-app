@@ -29,7 +29,7 @@ function MainNavBar(props) {
                             <>
                                 <Link to={'/'} className={'nav-link disabled m-1'}>{user.name}</Link>
 
-                                {user['https://sec-me-api.herokuapp.com/roles'].length === 0 ? (
+                                {user['https://secme-api.azurewebsites.net/roles'].length === 0 ? (
                                     <Link to={'/dashboard'} className={'nav-link btn btn-secondary m-1 disabled'}
                                           onClick={() => setSessionStorage(user.email)}>Dashboard</Link>
                                 ) : (

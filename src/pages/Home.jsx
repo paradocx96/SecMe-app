@@ -70,7 +70,7 @@ const Home = () => {
                                             <h2>Role: </h2>
                                         </td>
                                         <td>
-                                            <h2>{user['https://sec-me-api.herokuapp.com/roles']}</h2>
+                                            <h2>{user['https://secme-api.azurewebsites.net/roles']}</h2>
                                         </td>
                                     </tr>
                                     </tbody>
