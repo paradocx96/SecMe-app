@@ -14,23 +14,38 @@ const API_URL_LOCAL = Connection.localAddress + URI_FOR_FILE;
 class FileService {
 
     //axios upload file call
-    uploadFile(file) {
-        return axios.post(API_URL_REMOTE + "add", file);
+    uploadFile(file, token) {
+        return axios.post(API_URL_LOCAL + "add", file, {
+            headers: {
+                authorization: `Bearer ${token}`,
+            }
+        });
     }
 
     //axios get files by username call
-    getFilesByUsername(username) {
-        return axios.get(API_URL_REMOTE + "getByUsername/" + username);
+    getFilesByUsername(username, token) {
+        return axios.get(API_URL_LOCAL + "getByUsername/" + username, {
+            headers: {
+                authorization: `Bearer ${token}`,
+            }});
     }
 
     //axios get file by id call
-    getFileById(id) {
-        return axios.get(API_URL_REMOTE + "getById/" + id);
+    getFileById(id, token) {
+        return axios.get(API_URL_LOCAL + "getById/" + id, {
+            headers: {
+                authorization: `Bearer ${token}`,
+            }
+        });
     }
 
     //axios delete file by id call
-    deleteFileById(id) {
-        return axios.delete(API_URL_REMOTE + id);
+    deleteFileById(id, token) {
+        return axios.delete(API_URL_LOCAL + id, {
+            headers: {
+                authorization: `Bearer ${token}`,
+            }
+        });
     }
 }
 
