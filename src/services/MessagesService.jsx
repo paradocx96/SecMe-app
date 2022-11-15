@@ -2,7 +2,7 @@ import axios from "axios";
 
 const REMOTE_API_URL = "https://secme-api.azurewebsites.net/";
 const URI_PART_FOR_MESSAGES = "api/messages/";
-const LOCAL_API_URL = "http://localhost:443/";
+const LOCAL_API_URL = "https://localhost:443/";
 
 const URI_MESSAGES = LOCAL_API_URL + URI_PART_FOR_MESSAGES;
 

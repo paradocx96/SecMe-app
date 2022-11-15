@@ -14,22 +14,7 @@ const MessagesList = () => {
 
     useEffect( () => {
         //get all messages with token
-        async function getAllMessagesWithToken(){
-            //get the token
-            const token = await getAccessTokenSilently();
-            await MessagesService.getAllMessagesWithToken(token).then((response) => {
-                console.log("Message Data : ",response.data);
-                setMessagesList(response.data)
-            }).catch((error) =>  {
-                if(error.response.status === 403 || error.response.status === 401){
-                    ToastMessages("Permission Issue", "You Do not have permission");
-                }else{
-                    ToastMessages("Error", "Something went wrong!");
-                }
-            })
-        }
-
-        getAllMessagesWithToken();
+        privateCallGetAllMessagesWithToken()
     },[])
 
     const privateCallGetAllMessages = async () => {
@@ -52,8 +37,18 @@ const MessagesList = () => {
             const token = await getAccessTokenSilently();
 
             const response = await MessagesService.getAllMessagesWithToken(token);
-            setMessagesList(response.data)
-            console.log(response.data);
+            console.log("Response Status : ", response.status)
+            if (response.status == 200){
+                setMessagesList(response.data)
+                console.log(response.data);
+            }
+            else if (response.status == 400 || response.status == 401 || response.status == 403){
+                showAlert("You do not have permission")
+            }
+            else {
+                showAlert("Something went wrong")
+            }
+
         }
         catch (exception){
             console.log("Exception in getting all messages :  " + exception);
