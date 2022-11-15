@@ -1,3 +1,11 @@
+/**
+ * SSD - SecMe API
+ *
+ * @Author IT19180526 - S.A.N.L.D. Chandrasiri
+ * @Description This file for Auth service check the user is authenticated or not and RBAC
+ * @Version 1.0
+ */
+
 import React, {useState} from 'react';
 import {useAuth0} from "@auth0/auth0-react";
 import {Button, Container} from "react-bootstrap";

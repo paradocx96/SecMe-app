@@ -1,3 +1,11 @@
+/**
+ * SSD - SecMe API
+ *
+ * @Author IT19180526 - S.A.N.L.D. Chandrasiri
+ * @Description This file for Landing page of the application
+ * @Version 1.0
+ */
+
 import React from "react";
 import {useAuth0} from "@auth0/auth0-react";
 import {Col, Container, Row, Table} from "react-bootstrap";
