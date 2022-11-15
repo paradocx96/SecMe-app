@@ -1,19 +1,36 @@
 import React, {useEffect, useState} from "react";
 import {useAuth0} from "@auth0/auth0-react";
-import {Button, Container, Table} from "react-bootstrap";
+import {Container, Table} from "react-bootstrap";
 import axios from "axios";
 import MessagesService from "../../services/MessagesService";
+import ToastMessages from "../common/ToastMessages";
 
 
 const BASE_URL_LOCALHOST = "http://localhost:443/api/messages/";
 
 const MessagesList = () => {
-    const {user, isAuthenticated, isLoading, getAccessTokenSilently} = useAuth0();
+    const {getAccessTokenSilently} = useAuth0();
     const [messagesList, setMessagesList] = useState([]);
 
     useEffect( () => {
-        privateCallGetAllMessagesWithToken();
-    })
+        //get all messages with token
+        async function getAllMessagesWithToken(){
+            //get the token
+            const token = await getAccessTokenSilently();
+            await MessagesService.getAllMessagesWithToken(token).then((response) => {
+                console.log("Message Data : ",response.data);
+                setMessagesList(response.data)
+            }).catch((error) =>  {
+                if(error.response.status === 403 || error.response.status === 401){
+                    ToastMessages("Permission Issue", "You Do not have permission");
+                }else{
+                    ToastMessages("Error", "Something went wrong!");
+                }
+            })
+        }
+
+        getAllMessagesWithToken();
+    },[])
 
     const privateCallGetAllMessages = async () => {
         try {
@@ -26,14 +43,13 @@ const MessagesList = () => {
         }
     }
 
+    const showAlert = (message) => {
+        alert(message);
+    }
+
     const privateCallGetAllMessagesWithToken = async () => {
         try {
             const token = await getAccessTokenSilently();
-            /*const response = await axios.get(BASE_URL_LOCALHOST, {
-                headers: {
-                    authorization: `Bearer ${token}`,
-                },
-            });*/
 
             const response = await MessagesService.getAllMessagesWithToken(token);
             setMessagesList(response.data)
