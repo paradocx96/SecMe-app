@@ -1,12 +1,11 @@
 import React from "react";
 import {useAuth0} from "@auth0/auth0-react";
-import {Button, Col, Container, Row, Table} from "react-bootstrap";
-import PostService from "../services/PostService";
+import {Col, Container, Row, Table} from "react-bootstrap";
 import AddMessage from "../components/messages/AddMessage";
 import MessagesList from "../components/messages/MessagesList";
 
 const Home = () => {
-    const {user, isAuthenticated, isLoading, getAccessTokenSilently} = useAuth0();
+    const {user, isAuthenticated, isLoading} = useAuth0();
 
     if (isLoading) {
         return <div>Loading ...</div>;
@@ -15,26 +14,6 @@ const Home = () => {
     if (isAuthenticated) {
         // console.log(JSON.stringify(user, null, 2));
         console.log(user);
-    }
-
-    const publicCall = async () => {
-        await PostService.publicCall(getAccessTokenSilently);
-    }
-
-    const privateCall = async () => {
-        await PostService.privateCall(getAccessTokenSilently);
-    }
-
-    const privateCallScopeAdmin = async () => {
-        await PostService.privateCallScopeAdmin(getAccessTokenSilently);
-    }
-
-    const privateCallScopeManager = async () => {
-        await PostService.privateCallScopeManager(getAccessTokenSilently);
-    }
-
-    const privateCallScopeWorker = async () => {
-        await PostService.privateCallScopeWorker(getAccessTokenSilently);
     }
 
     return (
@@ -70,7 +49,7 @@ const Home = () => {
                                             <h2>Role: </h2>
                                         </td>
                                         <td>
-                                            <h2>{user['https://sec-me-api.herokuapp.com/roles']}</h2>
+                                            <h2>{user['https://secme-api.azurewebsites.net/roles']}</h2>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -84,19 +63,11 @@ const Home = () => {
                     <h3>User is {isAuthenticated ? 'authenticated!' : 'not authenticated!'}</h3>
                 </div>
 
-                <div className={'pt-5'}>
-                    <Button onClick={publicCall}>Message Public</Button>
-                    <Button onClick={privateCall}>Message Private</Button>
-                    <Button onClick={privateCallScopeAdmin}>Scope Admin</Button>
-                    <Button onClick={privateCallScopeManager}>Scope Manager</Button>
-                    <Button onClick={privateCallScopeWorker}>Scope Worker</Button>
-                </div>
-
                 <div>
                     {
                         isAuthenticated ?
                             <div>
-                                <AddMessage />
+                                <AddMessage/>
                                 <MessagesList/>
                             </div> :
                             <div>

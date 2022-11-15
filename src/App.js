@@ -10,6 +10,7 @@ import File from "./components/dashboard/File";
 import FileList from "./components/dashboard/FileList";
 import Messages from "./pages/Messages";
 import AddMessage from "./components/messages/AddMessage";
+import Auth from "./components/home/Auth";
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
                 <Route path="/messages/add" element={<AddMessage/>}/>
                 <Route path="/file" element={<File/>}/>
                 <Route path="/file-list" element={<FileList/>}/>
+                <Route path="/auth" element={<Auth/>}/>
             </Routes>
         </div>
     );

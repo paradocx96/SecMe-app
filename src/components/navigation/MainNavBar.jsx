@@ -4,10 +4,12 @@ import {Link} from "react-router-dom";
 import {useAuth0} from "@auth0/auth0-react";
 
 function MainNavBar(props) {
-    const {loginWithRedirect, logout, user, isAuthenticated} = useAuth0();
+    const {loginWithRedirect, logout, user, isAuthenticated, getAccessTokenSilently} = useAuth0();
 
-    const setSessionStorage = (email) => {
-        sessionStorage.setItem('user-email', email);
+    const setSessionStorage = async (email) => {
+        const token = await getAccessTokenSilently();
+        await sessionStorage.setItem('user-email', email);
+        await sessionStorage.setItem('token', token);
     }
 
     const removeSessionStorage = () => {
@@ -29,7 +31,7 @@ function MainNavBar(props) {
                             <>
                                 <Link to={'/'} className={'nav-link disabled m-1'}>{user.name}</Link>
 
-                                {user['https://sec-me-api.herokuapp.com/roles'].length === 0 ? (
+                                {user['https://secme-api.azurewebsites.net/roles'].length === 0 ? (
                                     <Link to={'/dashboard'} className={'nav-link btn btn-secondary m-1 disabled'}
                                           onClick={() => setSessionStorage(user.email)}>Dashboard</Link>
                                 ) : (
