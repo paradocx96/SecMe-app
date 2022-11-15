@@ -1,6 +1,8 @@
 import React from 'react';
 import DashNavBar from "../navigation/DashNavBar";
 import {Container} from "react-bootstrap";
+import {Link} from "react-router-dom";
+import MessagesList from "../messages/MessagesList";
 
 function Message(props) {
     return (
@@ -8,7 +10,9 @@ function Message(props) {
             <Container>
                 <h1 className='text-uppercase'>Dashboard</h1>
                 <DashNavBar/>
-                <h2>Message</h2>
+
+                <Link to={'/messages/add'}>Add New Message</Link>
+                <MessagesList/>
             </Container>
         </div>
     );

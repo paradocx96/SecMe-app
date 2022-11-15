@@ -1,4 +1,10 @@
-import React, {useEffect, useState} from "react";
+/**
+ * @Author: H.G. Malwatta - IT19240848
+ * @Description: This component is used to upload files to the server and store them in the database
+ * @Version: 1.0.0
+ */
+
+import React, {useState} from "react";
 import ToastMessages from "../common/ToastMessages";
 import FileService from "../../services/FileService";
 import {ToastContainer} from "react-toastify";
@@ -7,7 +13,7 @@ import "../../assets/file.css";
 import {useAuth0} from "@auth0/auth0-react";
 
 const UploadFile = () => {
-    const {user} = useAuth0();
+    const {user, getAccessTokenSilently} = useAuth0();
     const [selectedFile, setSelectedFile] = useState([]);
     const [fileBase64String, setFileBase64String] = useState("");
     const [fileName, setFileName] = useState("");
@@ -15,7 +21,6 @@ const UploadFile = () => {
 
     //Handle file upload
     const onFileChange = (e) => {
-        //setIsLoaded(true);
         encodeFileBase64(e.target.files[0]);
         setSelectedFile(e.target.files);
         console.log("Files" + e.target.files[0]);
@@ -24,7 +29,10 @@ const UploadFile = () => {
         console.log("type " + e.target.files[0].type);
         setFileName(e.target.files[0].name);
 
-        ToastMessages("info", "File Loaded Successfully!");
+        //Check file is loaded
+        if (e.target.files[0]) {
+            ToastMessages("info", "File Loaded Successfully!");
+        }
     };
 
     //Encode file to base64
@@ -37,10 +45,10 @@ const UploadFile = () => {
             reader.onload = () => {
                 const Base64 = reader.result;
                 setFileBase64String(Base64);
-                console.log("DATA : ", Base64);
             };
             reader.onerror = (error) => {
                 console.log("error: ", error);
+                ToastMessages("error", "Something went wrong!");
             };
 
         }
@@ -62,8 +70,10 @@ const UploadFile = () => {
                 "type": selectedFile[0].type,
                 "fileSize": selectedFile[0].size,
             }
-            await FileService.uploadFile(data).then((res) => {
-                console.log("res: ", res);
+
+            const token = await getAccessTokenSilently();
+
+            await FileService.uploadFile(data, token).then((res) => {
                 setSelectedFile(null);
                 setFileBase64String("");
                 setFileName("");
@@ -73,6 +83,16 @@ const UploadFile = () => {
                 } else {
                     ToastMessages("error", "File Upload Failed");
                 }
+            }).catch((err) => {
+                if (err.response.status === 403 || err.response.status === 401) {
+                    ToastMessages("error", "You can't upload any file!");
+                } else {
+                    ToastMessages("error", "Something went wrong!");
+                }
+                setSelectedFile(null);
+                setFileBase64String("");
+                setFileName("");
+                setIsLoaded(false);
             });
         }
     }
