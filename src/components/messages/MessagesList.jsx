@@ -9,7 +9,7 @@ import ToastMessages from "../common/ToastMessages";
 const BASE_URL_LOCALHOST = "http://localhost:443/api/messages/";
 
 const MessagesList = () => {
-    const { getAccessTokenSilently} = useAuth0();
+    const {getAccessTokenSilently} = useAuth0();
     const [messagesList, setMessagesList] = useState([]);
 
     useEffect( () => {
