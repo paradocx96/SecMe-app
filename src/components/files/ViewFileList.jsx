@@ -68,7 +68,9 @@ const ViewFileList = () => {
     const onClickFileDelete = (id) => {
         setShow(true);
         onDelete(id).then(r => {
-            window.location.reload();
+            setTimeout(() => {
+                window.location.reload();
+            }, 1500);
         });
     }
     const decodeFileBase64 = (base64String) => {
@@ -99,11 +101,11 @@ const ViewFileList = () => {
         console.log("id: ", id);
         const token = await getAccessTokenSilently();
         await FileService.deleteFileById(id, token).then((res) => {
-            if (res.data.status === "success") {
-                window.location.reload();
-                ToastMessages("success", res.data.message);
+            console.log("DELETE STATUS: ", res.data.status);
+            if (res.data.status === "Success") {
+                ToastMessages("success", "File Deleted Successfully!");
             } else {
-                ToastMessages("error", res.data.message);
+                ToastMessages("error", "Sorry! failed to delete file");
             }
         }).catch((err) => {
             if (err.response.status === 403 || err.response.status === 401) {
@@ -128,7 +130,7 @@ const ViewFileList = () => {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>Close</Button>
-                    <Button variant="danger" onClick={() => onClickFileDelete(fileId)}>Delete</Button>
+                    <Button variant="danger" id={"delete-file-confirmation"} onClick={() => onClickFileDelete(fileId)}>Delete</Button>
                 </Modal.Footer>
             </Modal>
             <br/>
@@ -169,7 +171,7 @@ const ViewFileList = () => {
                                     onClick={() => onDownload(file.content, file.name)} className="btn btn-primary"
                                     id={"download-file"}>Download</Button></td>
                                 <td className={"text-center"}><Button onClick={() => handleShow(file.id)}
-                                                                      className="btn btn-danger">Delete</Button>
+                                                                      className="btn btn-danger" id={"delete-file"}>Delete</Button>
                                 </td>
                             </tr>
                         ))
