@@ -79,9 +79,9 @@ const UploadFile = () => {
                 setFileName("");
                 setIsLoaded(false);
                 if (res.status === 200) {
-                    ToastMessages("success", "File Uploaded Successfully");
+                    ToastMessages("success", "File Uploaded Successfully!");
                 } else {
-                    ToastMessages("error", "File Upload Failed");
+                    ToastMessages("error", "File Upload Failed!");
                 }
             }).catch((err) => {
                 if (err.response.status === 403 || err.response.status === 401) {
