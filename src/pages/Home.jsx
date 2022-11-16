@@ -71,7 +71,7 @@ const Home = () => {
                     <h3>User is {isAuthenticated ? 'authenticated!' : 'not authenticated!'}</h3>
                 </div>
 
-                <div>
+                {/*<div>
                     {
                         isAuthenticated ?
                             <div>
@@ -83,7 +83,7 @@ const Home = () => {
                             </div>
 
                     }
-                </div>
+                </div>*/}
 
             </div>
         </Container>
